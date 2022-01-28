@@ -3,54 +3,65 @@
 /* Date     : 27/1/2022           */
 /* Version  : V01                 */
 /**********************************/
-#include "../../01-LIB/01-STD_TYPES/STD_TYPES.h"
-#include "../../02-MCAL/I2C/I2C.h"
-#include "eeprom.h"
+#include "../../LIB/STD_TYPES.h"
+#include "../../MCAL/I2C/I2C.h"
+#include "EEPROM.h"
 
-#define EEPROM_ADDRESS  0b01010000
+#define EEPROM_ADDRESS 0b01010000
 
 void EEPROM_init(void)
 {
 	I2C_init_master();
 }
 
-u8_t EEPROM_write_byte(u16_t address, u8_t data)
+void EEPROM_write_byte(uint16_t address, uint8_t data)
 {
-    I2C_start();
-	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
-	I2C_write_byte((address>>8));
-    I2C_write_byte((u8_t)address);
-	I2C_write_byte(data);
-	I2C_stop();
-    return 1;
-}
-
-u8_t EEPROM_read_byte(u16_t address)
-{
-	u8_t data;
 	I2C_start();
 	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
-	I2C_write_byte((address>>8));
-	I2C_write_byte((u8_t)address);
+	I2C_write_byte((address >> 8));
+	I2C_write_byte((uint8_t)address);
+	I2C_write_byte(data);
+	I2C_stop();
+}
+
+uint8_t EEPROM_read_byte(uint16_t address)
+{
+	uint8_t data;
+	I2C_start();
+	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
+	I2C_write_byte((address >> 8));
+	I2C_write_byte((uint8_t)address);
 	I2C_repeated_start();
 	I2C_send_slave_address_with_read_req(EEPROM_ADDRESS);
 	data = I2C_read_byte();
 	I2C_stop();
-    return data;
+	return data;
 }
-u8_t EEPROM_write_25byte(u16_t address, u8_t* data)
+void EEPROM_write_bytes(uint16_t address, const uint8_t *data, uint8_t byte_count)
 {
-	u8_t index=0;
-    I2C_start();
+	uint8_t index = 0;
+	I2C_start();
 	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
-	I2C_write_byte((address>>8));
-    I2C_write_byte((u8_t)address);
-	for (index = 0; i < 25; index++)
+	I2C_write_byte((address >> 8));
+	I2C_write_byte((uint8_t)address);
+	for (index = 0; index < byte_count; index++)
 	{
 		I2C_write_byte(data[index]);
 	}
-	
-	
 	I2C_stop();
-    return 1;
+}
+void EEPROM_read_bytes(uint16_t address, uint8_t *return_var, uint8_t byte_count)
+{
+	uint8_t index = 0;
+	I2C_start();
+	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
+	I2C_write_byte((address >> 8));
+	I2C_write_byte((uint8_t)address);
+	I2C_repeated_start();
+	I2C_send_slave_address_with_read_req(EEPROM_ADDRESS);
+	for (index = 0; index < byte_count; index++)
+	{
+		return_var[index] = I2C_read_byte();
+	}
+	I2C_stop();
 }
