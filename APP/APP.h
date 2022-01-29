@@ -13,5 +13,8 @@
 
 
 #define ABOVE_MAX	1
+#define BELOW_MAX	0
+#define MAX_AMOUNT 5000
+#define AMOUNT_FLOAT 100
 
 uint8_t CheckMaxAmount(uint32_t amount);
