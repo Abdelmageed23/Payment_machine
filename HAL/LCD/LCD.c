@@ -3,10 +3,10 @@
 /* Date     : 18/1/2022           */
 /* Version  : V01                 */
 /**********************************/
-#include "../../01-LIB/STD_TYPES.h"
-#include "../../01-LIB/BIT_MATH.h"
-#include "../../01-LIB/DET/Det.h"
-#include "../../02-MCAL/DIO/DIO_interface.h"
+#include "../../LIB/STD_TYPES.h"
+#include "../../LIB/BIT_MATH.h"
+#include "../../LIB/DET/Det.h"
+#include "../../MCAL/DIO/DIO_interface.h"
 #include "LCD_cfg.h"
 #include "LCD.h"
 
