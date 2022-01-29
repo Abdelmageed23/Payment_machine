@@ -29,4 +29,37 @@
             STD_OFF  */
 #define TIMER_0_CTC_INT   STD_OFF
 
+
+
+
+
+/***********************************************TIMER2********************************/
+
+/*	NORMAL
+ * 	CTC
+ * 	PWM_PHASE_CORRECT
+ * 	FAST_PWM
+ */
+#define  Timer2_Mode NORMAL
+
+/*
+ * NO_CLOCK        	// STOP
+ * NO_PRESCALLER
+ * CLK_8
+ * CLK_32
+ * CLK_64
+ * CLK_128
+ * CLK_256
+ * CLK_1024
+ */
+#define Timer2_prescaler NO_PRESCALLER
+
+
+/*
+ * NO_INTERRUPT
+ * NORMAL
+ * CTC
+ */
+#define TIMER2_INTERRUPT	NO_INTERRUPT
+
 #endif

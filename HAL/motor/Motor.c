@@ -4,9 +4,9 @@
  * Created: 1/9/2022 5:56:57 PM
  *  Author: No. 01
  */ 
-#include "../../01-LIB/STD_TYPES.h"
-#include "../../02-MCAL/DIO/DIO_interface.h"
-#include "../../02-MCAL/PWM/PWM.h"
+#include "../../LIB/STD_TYPES.h"
+#include "../../MCAL/DIO/DIO_interface.h"
+#include "../../MCAL/PWM/PWM.h"
 #include "MOTOR_CONFIG.h"
 #include "Motor.h"
 

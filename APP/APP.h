@@ -17,4 +17,8 @@
 #define MAX_AMOUNT 5000
 #define AMOUNT_FLOAT 100
 
+#define BALANCE_ADDRESS	5				////////////////needed
+#define BALANC_ADDRESS_COUNT	8		////////////////needed
+
+#define ONE_SECOND	31250UL
 uint8_t CheckMaxAmount(uint32_t amount);

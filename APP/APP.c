@@ -18,14 +18,17 @@
 #include "../HAL/motor/Motor.h"
 
 #include "APP.h"
+
+
 void ATM_OperatingInit()
 {
+	Timer2_Init();
 	LCD_vidInit();
 	KPD_init();
 	TEMP_init();
-	BTN_vidInit();
+	BTN_vidInit(BTN_1);
 	EEPROM_init();
-	MOTOR_init();
+	MOTOR_init(MOTOR_1);
 }
 
 void ATM_OperatingMode()
@@ -42,6 +45,8 @@ void ATM_OperatingMode()
 
 }
 
+
+/* Need to check in data base too*/
 void Check_Card()
 {
 
@@ -50,6 +55,33 @@ void Check_Card()
 		uint8_t PIN_Check[PIN_SIZE]=0;
 		uint8_t PIN_Resut=0;
 			PIN_Resut =0;
+
+			/*Scanning the card data*/
+
+/****************öADVANCED ***************************************************/
+			LCD_vidClear();
+			LCD_vidWriteString("Scanning");
+			Timer2_SetBusyWait(9375);
+			LCD_vidWriteString(" .");
+			Timer2_SetBusyWait(9375);
+			LCD_vidWriteString(" .");
+			Timer2_SetBusyWait(9375);
+			LCD_vidWriteString(" .");
+			Timer2_SetBusyWait(9375);
+/****************ö END ADVANCED ***************************************************/
+
+			/*Scanning the card data*/
+	/*
+	 *
+	 *
+	 * checking Card DAtA
+	 * PIN ,NAME
+	 *
+	 *
+	 *
+	 */
+
+			/* Checking Card PIN*/
 			LCD_vidClear();
 			LCD_vidWriteString("Enter PIN");
 			LCD_vidSetPosition(1,5);
@@ -57,6 +89,7 @@ void Check_Card()
 			{
 				PIN[Temp_loop] = KPD_u8GetPressedKey();
 				LCD_vidWriteString('*');
+/*****************PIN ADDRES TO BE checked********************************************/
 				EEPROM_read_bytes( PIN_ADDRESS, &PIN_Check[Temp_loop], PIN_SIZE);
 				if(PIN_Check[Temp_loop] == PIN[Temp_loop])
 				{
@@ -122,11 +155,20 @@ void Chcek_Transaction()
 			else
 			{
 				Balance -=Nmeric_amount;
+
+	/*******************To be implemented******************************/
+			/*
+			 * Pushing new balance to EEPROM
+			 */
+
+				/****************************************/
 				LCD_vidClear();
 				LCD_vidWriteString("APPROVED");
 				MOTOR_direction(MOTOR_1,FWD);
 				MOTOR_speed(50);
-
+				Timer2_SetBusyWait(ONE_SECOND);
+				MOTOR_off(MOTOR_1);
+				OperatingHomePage();
 			}
 
 		}
@@ -139,23 +181,23 @@ void Chcek_Transaction()
 
 void OperatingHomePage()
 	{
-	uint8_t Temp_KBTN=0;
-	LCD_vidSetPosition(0,0);
-	LCD_vidWriteString("1-Insert Card");
-	LCD_vidSetPosition(1,0);
-	LCD_vidWriteString("2-Display Temp");
+		uint8_t Temp_KBTN=0;
+		LCD_vidSetPosition(0,0);
+		LCD_vidWriteString("1-Insert Card");
+		LCD_vidSetPosition(1,0);
+		LCD_vidWriteString("2-Display Temp");
 
 
-	Temp_KBTN = KPD_u8GetPressedKey();
+		Temp_KBTN = KPD_u8GetPressedKey();
 
-	if(Temp_KBTN == INSERT_CARD)
-	{
-		Check_Card();
-	}
-	else if (Temp_KBTN == DSIPLAY_TEMP)
-	{
-		DisplayTemp();
-	}
+		if(Temp_KBTN == INSERT_CARD)
+		{
+			Check_Card();
+		}
+		else if (Temp_KBTN == DSIPLAY_TEMP)
+		{
+			DisplayTemp();
+		}
 
 	}
 
@@ -164,11 +206,12 @@ void DisplayTemp(void)
 		LCD_vidClear();
 		LCD_vidSetPosition(0,0);
 		LCD_vidWriteString("ATM Temp :");
-		LCD_vidSetPosition(1,5);
-
+		LCD_vidSetPosition(0,12);
+		LCD_vidSetPosition(1,0);
+		LCD_vidWriteString("1 -Home :");
 		LCD_vidWriteNumber(TEMP_u8GetReading());
 
-		while(BTN_u8IsPressed()==0);
+		while(KPD_u8GetPressedKey()==1);
 
 		OperatingHomePage();
 		}
@@ -176,7 +219,7 @@ void DisplayTemp(void)
 
 uint8_t CheckMaxAmount(uint32_t Amount)
 {
-	if (Amount> MAX_AMOUNT*AMOUNT_FLOAT)
+	if (Amount> MAX_AMOUNT * AMOUNT_FLOAT)
 	{
 		return ABOVE_MAX;
 	}
@@ -204,12 +247,16 @@ uint32_t strtoint(char *str)
 }
 
 
-uint8_t check_balance(uint32 Nmeric_amount)
+uint8_t check_balance(uint32_t Nmeric_amount)
 {
+
+	/**********************Balance data type********************************************/
+	uint8_t Balance;
+	EEPROM_read_bytes(BALANCE_ADDRESS,&Balance,BALANC_ADDRESS_COUNT);
 	if(Nmeric_amount>Balance)
 	{
-		Return 1;
+		return 1;
 	}
 	else
-		Return 0;
+		return 0;
 }
