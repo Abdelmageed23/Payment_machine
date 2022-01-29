@@ -5,10 +5,9 @@
  *  Author: No. 01
  */ 
 
-#include "../../01-LIB/STD_types.h"
-#include "../../01-LIB/Registers.h"
-#include "../../02-MCAL/UART/UART_config.h"
-#include "../../02-MCAL/UART/UART_interface.h"
+#include "../../LIB/STD_types.h"
+#include "../../MCAL/UART/UART_config.h"
+#include "../../MCAL/UART/UART_interface.h"
 #include "Terminal.h"
 
 void TERMINAL_init(void)

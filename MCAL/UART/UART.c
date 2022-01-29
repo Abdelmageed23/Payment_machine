@@ -6,7 +6,7 @@
  */ 
 
 #include "../../01-LIB/STD_types.h"
-#include "../../01-LIB/Registers.h"
+#include "UART_regs.h"
 
 #include "UART_interface.h"
 #include "UART_config.h"
