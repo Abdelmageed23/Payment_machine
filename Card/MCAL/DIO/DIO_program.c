@@ -1,6 +1,6 @@
 /*Include all header files needed to implement the driver*/
-#include "../../01-LIB/BIT_MATH.h"
-#include "../../01-LIB/STD_TYPES.h"
+#include "../../LIB/BIT_MATH.h"
+#include "../../LIB/STD_TYPES.h"
 #include "DIO_register.h"
 #include "DIO_interface.h"
 

@@ -33,7 +33,7 @@ uint8_t EEPROM_read_byte(uint16_t address)
 	I2C_write_byte((uint8_t)address);
 	I2C_repeated_start();
 	I2C_send_slave_address_with_read_req(EEPROM_ADDRESS);
-	data = I2C_read_byte();
+	data = I2C_read_byte_NACK();
 	I2C_stop();
 	return data;
 }
@@ -59,9 +59,10 @@ void EEPROM_read_bytes(uint16_t address, uint8_t *return_var, uint8_t byte_count
 	I2C_write_byte((uint8_t)address);
 	I2C_repeated_start();
 	I2C_send_slave_address_with_read_req(EEPROM_ADDRESS);
-	for (index = 0; index < byte_count; index++)
+	for (index = 0; index < (byte_count-1); index++)
 	{
-		return_var[index] = I2C_read_byte();
+		return_var[index] = I2C_read_byte_ACK();
 	}
+	return_var[index] = I2C_read_byte_NACK();
 	I2C_stop();
 }

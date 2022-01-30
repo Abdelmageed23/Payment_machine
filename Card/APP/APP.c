@@ -8,9 +8,10 @@
 #include "../LIB/STD_types.h"
 #include "../HAL/EEPROM/EEPROM.h"
 #include "../HAL/Terminal/Terminal.h"
-#include "../MCAL/SPI/SPI_interface.h"
+//#include "../MCAL/SPI/SPI_interface.h"
 #include "APP_private.h"
 
+static void delay(uint16_t max);
 /*******************************************************************************
  *                     Function Implementation                                 *
  *******************************************************************************/
@@ -18,7 +19,7 @@ void APP_vidInit(void)
 {
   TERMINAL_init();
   EEPROM_init();
-  SPI_SLVinit();
+  //SPI_SLVinit();
 }
 void APP_vidStart(void)
 {
@@ -93,6 +94,13 @@ void CARD_admin(void)
   TERMINAL_write(st_myCard.s8_cardHolderName);
   TERMINAL_newLine();
   EEPROM_write_bytes(NAME_STARTING_ADDRESS, st_myCard.s8_cardHolderName, NAME_SIZE);
+  delay(65000);
+       delay(65000);
+       delay(65000);
+       delay(65000);
+       delay(65000);
+            delay(65000);
+            delay(65000);
   u8_validityFlag = LOW;
 
   while (!u8_validityFlag)
@@ -130,6 +138,13 @@ void CARD_admin(void)
   TERMINAL_write(st_myCard.s8_PAN);
   TERMINAL_newLine();
   EEPROM_write_bytes(PAN_STARTING_ADDRESS, st_myCard.s8_PAN, PAN_SIZE);
+  delay(65000);
+       delay(65000);
+       delay(65000);
+       delay(65000);
+       delay(65000);
+            delay(65000);
+            delay(65000);
   u8_validityFlag = LOW;
 
   while (!u8_validityFlag)
@@ -167,6 +182,13 @@ void CARD_admin(void)
   TERMINAL_write(st_myCard.s8_pin);
   TERMINAL_newLine();
   EEPROM_write_bytes(PIN_STARTING_ADDRESS, st_myCard.s8_pin, PIN_SIZE);
+  delay(65000);
+     delay(65000);
+     delay(65000);
+     delay(65000);
+     delay(65000);
+          delay(65000);
+          delay(65000);
 }
 
 void CARD_user(void)
@@ -201,4 +223,13 @@ uint8_t compare(uint8_t a[], uint8_t b[])
     return 0;
   else
     return 1;
+}
+
+static void delay(uint16_t max)
+{
+	uint16_t counter = 0;
+	while (counter < max) // loop to perform a delay
+	{
+		counter++;
+	}
 }

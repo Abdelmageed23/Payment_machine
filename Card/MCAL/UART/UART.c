@@ -5,7 +5,7 @@
  *  Author: No. 01
  */ 
 
-#include "../../01-LIB/STD_types.h"
+#include "../../LIB/STD_TYPES.h"
 #include "UART_regs.h"
 
 #include "UART_interface.h"

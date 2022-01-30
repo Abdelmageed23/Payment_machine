@@ -66,12 +66,20 @@ void I2C_write_byte(uint8_t byte)
 	while((TWSR & STATUS_BITS_MASK) != WR_BYTE_ACK); // Check for the acknowledgment
 }
 
-uint8_t I2C_read_byte(void)
+uint8_t I2C_read_byte_NACK(void)
 {
 	TWCR = (1<<TWINT) | (1<<TWEN);             // Clear TWI interrupt flag,Enable TWI
 	while((GET_BIT(TWCR,TWINT)) == 0 );               // Wait till complete TWDR byte transmitted
 	while((TWSR & STATUS_BITS_MASK) != RD_BYTE_WITH_NACK); // Check for the acknowledgment
 	return TWDR;
+}
+
+uint8_t I2C_read_byte_ACK(void)
+{
+	TWCR=(1<<TWEN)|(1<<TWINT)|(1<<TWEA); /* Enable TWI, generation of ack */
+    while(GET_BIT(TWCR,TWINT) == 0);	/* Wait until TWI finish its current job */
+	while((TWSR & STATUS_BITS_MASK) != RD_BYTE_WITH_ACK); // Check for the acknowledgment
+    return TWDR;
 }
 
 void I2C_stop(void)
@@ -109,3 +117,4 @@ void I2C_slave_write_byte(uint8_t byte)
 	while((TWSR & STATUS_BITS_MASK) != SLAVE_BYTE_TRANSMITTED);    // Data byte in TWDR has been transmitted
 	return;
 }
+
