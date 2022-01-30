@@ -4,8 +4,8 @@
 /* Version  : V01                            			 */
 /*********************************************************/
 
-#include "../../01-LIB/BIT_MATH.h"
-#include "../../01-LIB/STD_TYPES.h"
+#include "../../LIB/BIT_MATH.h"
+#include "../../LIB/STD_TYPES.h"
 
 #include "Interrupt_interface.h"
 #include "Interrupt_private.h"
