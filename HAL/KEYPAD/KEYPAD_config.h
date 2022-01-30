@@ -18,7 +18,7 @@
 						 2- DIO_PORTB
 						 3- DIO_PORTC
 						 4- DIO_PORTD*/
-#define KPD_PORT		DIO_PORTD
+#define KPD_PORT		DIO_PORTA
 
 /*Select Rows and coulumns pins:
 								1-DIO_PIN0
@@ -29,14 +29,14 @@
 								6-DIO_PIN5
 								7-DIO_PIN6
 								8-DIO_PIN7*/
-#define KPD_ROW0_PIN	DIO_PIN2
-#define KPD_ROW1_PIN	DIO_PIN3
-#define KPD_ROW2_PIN	DIO_PIN4
-#define KPD_ROW3_PIN	DIO_PIN7	//PORTC PIN7
+#define KPD_ROW0_PIN	DIO_PIN4
+#define KPD_ROW1_PIN	DIO_PIN5
+#define KPD_ROW2_PIN	DIO_PIN6
+#define KPD_ROW3_PIN	DIO_PIN7
 
-#define KPD_COLUMN0_PIN	DIO_PIN5
-#define KPD_COLUMN1_PIN	DIO_PIN6
-#define KPD_COLUMN2_PIN	DIO_PIN7
+#define KPD_COLUMN0_PIN	DIO_PIN1
+#define KPD_COLUMN1_PIN	DIO_PIN2
+#define KPD_COLUMN2_PIN	DIO_PIN3
 
 /*Put 0xff if key not pressed*/
 #define KPD_NO_Pressed	0xff

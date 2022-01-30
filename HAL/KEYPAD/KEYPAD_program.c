@@ -42,13 +42,13 @@ void KPD_init(void)
 	DIO_SETpinDir(KPD_PORT,KPD_ROW0_PIN,DIO_INPUT);
 	DIO_SETpinDir(KPD_PORT,KPD_ROW1_PIN,DIO_INPUT);
 	DIO_SETpinDir(KPD_PORT,KPD_ROW2_PIN,DIO_INPUT);
-	DIO_SETpinDir(DIO_PORTC,KPD_ROW3_PIN,DIO_INPUT);
+	DIO_SETpinDir(KPD_PORT,KPD_ROW3_PIN,DIO_INPUT);
 
 	/*Set Rows to work in pull up mode*/
 	DIO_SETpinVal(KPD_PORT,KPD_ROW0_PIN,DIO_HIGH);
 	DIO_SETpinVal(KPD_PORT,KPD_ROW1_PIN,DIO_HIGH);
 	DIO_SETpinVal(KPD_PORT,KPD_ROW2_PIN,DIO_HIGH);
-	DIO_SETpinVal(DIO_PORTC,KPD_ROW3_PIN,DIO_HIGH);
+	DIO_SETpinVal(KPD_PORT,KPD_ROW3_PIN,DIO_HIGH);
 
 	/*Deactivate columns by setting them high*/
 	DIO_SETpinVal(KPD_PORT,KPD_COLUMN0_PIN,DIO_HIGH);
@@ -120,15 +120,9 @@ uint8_t KPD_u8GetPressedKey(void)
 		/*Iterate to check row's values*/
 		for(KPD_ROWS_Index=0;KPD_ROWS_Index<Row_num4_3;KPD_ROWS_Index++)
 		{
-			if(KPD_ROWS_Index==3)
-			{
-				DIO_GETpinVal(DIO_PORTC,KPD_ROWS[KPD_ROWS_Index],&ROW_PIN_State);
-			}
-			else
-			{
-				/*get the row state*/
-				DIO_GETpinVal(KPD_PORT,KPD_ROWS[KPD_ROWS_Index],&ROW_PIN_State);
-			}
+			/*get the row state*/
+			DIO_GETpinVal(KPD_PORT,KPD_ROWS[KPD_ROWS_Index],&ROW_PIN_State);
+
 			/*if button pressed*/
 			if(DIO_LOW==ROW_PIN_State)
 			{
