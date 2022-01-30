@@ -1,13 +1,13 @@
-#include "STD_TYPES.h"
+#include "LIB/STD_TYPES.h"
 
-#include "DIO_interface.h"
-#include "UART_interface.h"
-#include "I2C.h"
+#include "MCAL/DIO/DIO_interface.h"
+#include "MCAL/UART/UART_interface.h"
+#include "MCAL/I2C/I2C.h"
 
-#include "LCD.h"
-#include "KEYPAD_interface.h"
-#include "EEPROM.h"
-#include "Terminal.h"
+#include "HAL/LCD/LCD.h"
+#include "HAL/KEYPAD/KEYPAD_interface.h"
+#include "HAL/EEPROM/EEPROM.h"
+#include "HAL/Terminal/Terminal.h"
 
 //#include <util/delay.h>
 

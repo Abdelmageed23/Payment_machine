@@ -3,9 +3,9 @@
 /* Date     : 5/1/2022            */
 /* Version  : V01                 */
 /**********************************/
-#include "../../01-LIB/STD_TYPES.h"
-#include "../../01-LIB/BIT_MATH.h"
-#include "../../02-MCAL/DIO/DIO_interface.h"
+#include "../../LIB/STD_TYPES.h"
+#include "../../LIB/BIT_MATH.h"
+#include "../../MCAL/DIO/DIO_interface.h"
 #include "Button.h"
 #include "ButtonConfig.h"
 
@@ -77,7 +77,7 @@ uint8_t BTN_u8IsPressed(BTN_Num_t btn)
         {
             // do nothing
         }
-
+        break;
     case BTN_1:
         while (1)
         {

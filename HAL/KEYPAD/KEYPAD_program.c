@@ -5,9 +5,9 @@
 /******************** Driver : KEYPAD **********************/
 /***********************************************************/
 /***********************************************************/
-#include "STD_TYPES.h"
+#include "../../LIB/STD_TYPES.h"
 
-#include "DIO_interface.h"
+#include "../../MCAL/DIO/DIO_interface.h"
 
 #include "KEYPAD_config.h"
 #include "KEYPAD_private.h"

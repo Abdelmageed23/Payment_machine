@@ -1,6 +1,6 @@
-#include "../../01-LIB/STD_TYPES.h"
+#include "../../LIB/STD_TYPES.h"
 
-#include "../../02-MCAL/ADC/ADC_interface.h"
+#include "../../MCAL/ADC/ADC_interface.h"
 #include "TEMP_private.h"
 #include "TEMP_config.h"
 #include "TEMP_interface.h"

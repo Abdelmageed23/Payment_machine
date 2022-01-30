@@ -3,8 +3,8 @@
 /* Date     : 10/1/2022            */
 /* Version  : V01                 */
 /**********************************/
-#include "../../01-LIB/STD_TYPES.h"
-#include "../../01-LIB/BIT_MATH.h"
+#include "../../LIB/STD_TYPES.h"
+#include "../../LIB/BIT_MATH.h"
 #include "../TIMER/Timer.h"
 #include "../DIO/DIO_interface.h"
 #include "PWM.h"
