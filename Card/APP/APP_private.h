@@ -13,7 +13,7 @@
 #define NAME_STARTING_ADDRESS 0x00 // start at 0 it will take 10 bytes so ending address -> 0xA
 #define PAN_STARTING_ADDRESS 0x14  // start at 0xA+10 bytes(A) = 0x14 and it will end at 0x1E (+10)
 #define PIN_STARTING_ADDRESS 0x28  // leave 10 bytes after ending (0x1E) so it will start at 0x28
-
+#define WRITTEN_FLAG_ADDRESS 0x32
 //  DATATYPES 
 typedef struct card_t
 {
