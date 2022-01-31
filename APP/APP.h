@@ -1,31 +1,42 @@
-
+/*
+ * **** Account 16
+ * PAN 			9 char
+ * Balance		7 char
+ */
 
 /* Configuration*/
+
+#define ACCOUNT_SIZE	16
+
+#define PAN_INITAL_ADDRESS		0x01
+#define PAN_SIZE	9
+
 #define PIN_SIZE	4
 #define NUM_ATM_ACCOUNTS		10
 
-#define PAN_ADDRESS		0x10
-#define PAN_SIZE	9
+
+#define BALANCE_ADDRESS	0x10
+#define BALANC_ADDRESS_COUNT	8
+#define BALANCE_SIZE	6
 
 
 //#define PAN_CARD
 
-#define PIN_ADDRESS		0x32			// NEEEDED
-#define MAX_AMOUNT 5000
+
+#define MAX_AMOUNT 500000
 
 
-#define BALANCE_ADDRESS	5				////////////////needed
-#define BALANC_ADDRESS_COUNT	8		////////////////needed
-#define BALANCE_SIZE	6
 
 
 /* MACROS*/
 
-#define HOMEPAGE	9				//////////////////////////
+#define HOME_KEY	9				//////////////////////////
+#define AGAIN_KEY	1				////////////////////////////
 
 #define INSERT_CARD		1
 #define DSIPLAY_TEMP	2
 
+#define NOT_FOUND 0
 
 #define APPROVED	1
 #define NOT_APPROVED 0
