@@ -36,7 +36,7 @@ void setRxCompleteCallback(void (*callback)(void))
 }
 uint8_t UART_returnRxStatus(void)
 {
-	return (UCSRA&(HIGH<<RXC))>>RXC);
+	return ((UCSRA&(HIGH<<RXC))>>RXC);
 }
 void UART_receiveChar(uint8_t* u8_val)
 {

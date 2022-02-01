@@ -15,3 +15,6 @@ void GlobalInerruptEnable(void)
 {
 	SET_BIT(SREG,7);
 }
+void GlobalInerruptDisable(void){
+	CLR_BIT(SREG,7);
+}

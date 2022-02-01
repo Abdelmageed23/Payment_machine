@@ -9,5 +9,6 @@
 
 
 void GlobalInerruptEnable(void);
+void GlobalInerruptDisable(void);
 
 #endif
