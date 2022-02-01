@@ -41,7 +41,7 @@ void BTN_vidInit(BTN_Num_t btn)
 }
 
 uint8_t BTN_u8IsPressed(BTN_Num_t btn)
-{   uint16_t counter= 0;
+{   unint16_t counter= 0;
     uint8_t prev_status = 0;
     uint8_t status = 1;
 

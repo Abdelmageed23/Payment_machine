@@ -14,7 +14,7 @@ void EEPROM_init(void)
 	I2C_init_master();
 }
 
-void EEPROM_write_byte(uint16_t address, uint8_t data)
+void EEPROM_write_byte(unint16_t address, uint8_t data)
 {
 	I2C_start();
 	I2C_send_slave_address_with_write_req(EEPROM_ADDRESS);
@@ -24,7 +24,7 @@ void EEPROM_write_byte(uint16_t address, uint8_t data)
 	I2C_stop();
 }
 
-uint8_t EEPROM_read_byte(uint16_t address)
+uint8_t EEPROM_read_byte(unint16_t address)
 {
 	uint8_t data;
 	I2C_start();
@@ -37,7 +37,7 @@ uint8_t EEPROM_read_byte(uint16_t address)
 	I2C_stop();
 	return data;
 }
-void EEPROM_write_bytes(uint16_t address, const uint8_t *data, uint8_t byte_count)
+void EEPROM_write_bytes(unint16_t address, const uint8_t *data, uint8_t byte_count)
 {
 	uint8_t index = 0;
 	I2C_start();
@@ -50,7 +50,7 @@ void EEPROM_write_bytes(uint16_t address, const uint8_t *data, uint8_t byte_coun
 	}
 	I2C_stop();
 }
-void EEPROM_read_bytes(uint16_t address, uint8_t *return_var, uint8_t byte_count)
+void EEPROM_read_bytes(unint16_t address, uint8_t *return_var, uint8_t byte_count)
 {
 	uint8_t index = 0;
 	I2C_start();

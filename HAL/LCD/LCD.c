@@ -14,7 +14,7 @@ static uint8_t LCD_Status = LCD_NOT_INITIALIZED;
 
 // ********* PRIVATE FUNCTIONS PROTOTYPE *********
 
-static void delay(uint16_t max);
+static void delay(unint16_t max);
 
 // ********* FUNCTIONS IMPLMENTATION **********
 
@@ -202,9 +202,9 @@ void LCD_vidClear(void)
 }
 
 //*******  PRIVATE FUNCTIONS IMPLMENTATION ********
-static void delay(uint16_t max)
+static void delay(unint16_t max)
 {
-	uint16_t counter = 0;
+	unint16_t counter = 0;
 	while (counter < max) // loop to perform a delay
 	{
 		counter++;

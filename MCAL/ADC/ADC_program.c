@@ -8,7 +8,7 @@
 #include "ADC_private.h"
 #include "ADC_interface.h"
 
-uint16_t* gu8_Reading;
+unint16_t* gu8_Reading;
 uint8_t gu8_State=IDLE;
 void(*CallbackNotification)(void);
 
@@ -39,7 +39,7 @@ void ADC_init(void)
 	SET_BIT(ADC_ADCSRA,ADCSRA_ADEN);
 }
 
-uint8_t ADC_u8StartConversionSynch(uint8_t ADC_Channel,uint16_t* u8_Reading)
+uint8_t ADC_u8StartConversionSynch(uint8_t ADC_Channel,unint16_t* u8_Reading)
 {
 	uint8_t local_u8Error=OK;
 	uint32_t local_u8Counter=0;

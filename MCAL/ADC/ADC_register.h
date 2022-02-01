@@ -16,7 +16,7 @@
 #define ADCSRA_ADPS1    1
 #define ADCSRA_ADPS0	0
 
-#define	ADC_ADCL        *((volatile uint16_t*)0x24)
+#define	ADC_ADCL        *((volatile unint16_t*)0x24)
 #define	ADC_ADCH        *((volatile char*)0x25)
 
 #define	ADC_SFIOR       *((volatile char*)0x50)

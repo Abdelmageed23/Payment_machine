@@ -9,10 +9,11 @@
 #include "HAL/EEPROM/EEPROM.h"
 #include "HAL/Terminal/Terminal.h"
 
-//#include <util/delay.h>
+#include <util/delay.h>
 
-#define EEPROM_MAX_AMOUNT_ADDRESS	0x10
-#define Balance_ADDRESS		0x30
+#define EEPROM_MAX_AMOUNT_ADDRESS	0xF5
+#define Balance_ADDRESS		0x10
+#define PAN_ADDRESS			0x01
 #define MaxAmountSize		9
 #define PAN					9
 #define KPD_NOT_PRESSED		255
@@ -26,14 +27,15 @@
 #define CustomerData_mode	1
 #define MaxAmount_mode		2
 #define Exit_mode			3
-#define Enter_Button		12
+#define Enter_Button		9
 #define KPD_Min_Button		0
-#define KPD_Max_Button		9
+#define KPD_Max_Button		8
 #define LCD_Y_SixLine		6
 #define Balance_intNum		4
 #define BalanceSize			7
 
 uint8_t Check_sentData(uint8_t* data,uint8_t* Order);
+void PAN_BALANCE(void);
 void Customer_data(void);
 void Max_Balance(void);
 void Exit(void);
@@ -81,7 +83,7 @@ void main(void)
 			LCD_vidWriteString("Wrong Number.");
 			LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
 			LCD_vidWriteString("Try again.");
-		//	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+			_delay_ms(1000);//Delaaaaaaaaaaaaaaaaaaay
 		}
 	}
 }
@@ -110,8 +112,9 @@ void Customer_data(void)
 {
 	uint8_t local_u8KPDread;
 	uint8_t local_u8indexI;
+	uint8_t local_u8PassState=NOK;
 	uint8_t local_u8AdminArr[]="ADMIN";
-	uint8_t local_u8PassArr[]="1234";
+	uint8_t local_u8PassArr[]={4,5,6,7};
 	uint8_t local_u8AdminRead[LCD_Line_Size];
 	uint8_t local_u8PassRead[LCD_Line_Size];
 	uint8_t local_u8PAN[PAN];
@@ -120,8 +123,9 @@ void Customer_data(void)
 	LCD_vidClear();
 	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
 	LCD_vidWriteString("Enter UserName:");
-	TERMINAL_read(&local_u8AdminRead);
-	if(Check_sentData(&local_u8AdminRead,&local_u8AdminArr))
+	_delay_ms(1000);
+	//TERMINAL_read(&local_u8AdminRead);
+	if(1)//Check_sentData(&local_u8AdminRead,&local_u8AdminArr)
 	{
 		LCD_vidClear();
 		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
@@ -136,11 +140,28 @@ void Customer_data(void)
 			}
 			if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
 			{
-				LCD_vidWriteCommand('*');
 				local_u8PassRead[local_u8indexI]=local_u8KPDread;
+				LCD_vidWriteNumber(local_u8PassRead[local_u8indexI]);
+				if(local_u8PassRead[local_u8indexI]==local_u8PassArr[local_u8indexI])
+				{
+					local_u8PassState=OK;
+				}
+				else
+				{
+					local_u8PassState=NOK;
+					break;
+				}
 			}
 			else if(local_u8KPDread==Enter_Button)
 			{
+				if(local_u8indexI==4)
+				{
+					local_u8PassState=OK;
+				}
+				else
+				{
+					local_u8PassState=NOK;
+				}
 				local_u8PassRead[local_u8indexI]='\0';
 				break;
 			}
@@ -149,86 +170,16 @@ void Customer_data(void)
 				local_u8indexI--;
 			}
 		}
-		if(Check_sentData(&local_u8PassRead,&local_u8PassArr))
+		if(local_u8PassState==OK)
 		{
-			LCD_vidClear();
-			LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
-			LCD_vidWriteString("Enter PAN:");
-			LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
-			for(local_u8indexI=Init_BY_ZERO;local_u8indexI<PAN;local_u8indexI++)
-			{
-				local_u8KPDread=KPD_u8GetPressedKey();
-				while(local_u8KPDread==KPD_NOT_PRESSED)
-				{
-					local_u8KPDread=KPD_u8GetPressedKey();
-				}
-				if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
-				{
-					LCD_vidWriteCommand(local_u8KPDread);
-					local_u8PAN[local_u8indexI]=local_u8KPDread;
-				}
-				else if(local_u8KPDread==Enter_Button)
-				{
-					local_u8PAN[local_u8indexI]='\0';
-					break;
-				}
-				else
-				{
-					local_u8indexI--;
-				}
-			}
-			EEPROM_write_bytes(0x20,&local_u8PAN,PAN);
-			//_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
-
-			LCD_vidClear();
-			LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
-			LCD_vidWriteString("Enter Balance:");
-			LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
-			LCD_vidWriteString("0000.00");
-			LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
-			for(local_u8indexI=Init_BY_ZERO;local_u8indexI<7;local_u8indexI++)
-			{
-				local_u8KPDread=KPD_u8GetPressedKey();
-				while(local_u8KPDread==KPD_NOT_PRESSED)
-				{
-					local_u8KPDread=KPD_u8GetPressedKey();
-				}
-				if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
-				{
-					if(local_u8indexI<Balance_intNum)
-					{
-						LCD_vidWriteCommand(local_u8KPDread);
-						local_u8BALANCE[local_u8indexI]=local_u8KPDread;
-					}
-					else if(local_u8indexI>=Balance_intNum)
-					{
-						LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_SixLine);
-						LCD_vidWriteCommand(local_u8KPDread);
-						local_u8BALANCE[local_u8indexI]=local_u8KPDread;
-					}
-				}
-				else if(local_u8KPDread==Enter_Button)
-				{
-					local_u8BALANCE[local_u8indexI]='\0';
-					break;
-				}
-				else
-				{
-					local_u8indexI--;
-				}
-			}
-			EEPROM_write_bytes(Balance_ADDRESS,&local_u8BALANCE,PAN);
-			//_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
-			LCD_vidClear();
-			LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
-			LCD_vidWriteString("Confirm");
+			PAN_BALANCE();
 		}
 		else
 		{
 			LCD_vidClear();
 			LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
 			LCD_vidWriteString("Wrong Password");
-		//	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+			_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
 		}
 	}
 	else
@@ -236,7 +187,7 @@ void Customer_data(void)
 		LCD_vidClear();
 		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
 		LCD_vidWriteString("Wrong User name");
-	//	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+		_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
 	}
 }
 
@@ -273,14 +224,216 @@ void Max_Balance(void)
 		}
 	}
 	EEPROM_write_bytes(EEPROM_MAX_AMOUNT_ADDRESS,&local_u8MaxAmountArr,MaxAmountSize);
-	//_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
 	LCD_vidClear();
 	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
 	LCD_vidWriteString("AmountConfirmed");
-	//_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
 }
 
 void Exit(void)
 {
 	//do nothing
+}
+
+void PAN_BALANCE(void)
+{
+	uint8_t local_u8KPDread;
+	uint8_t local_u8indexI;
+	uint8_t local_u8indexII;
+	uint8_t local_u8PAN[PAN];
+	uint8_t local_u8BALANCE[BalanceSize];
+	uint8_t PANADDRESS=PANADDRESS;
+	uint8_t BalanceADDRESS=Balance_ADDRESS;
+
+	LCD_vidClear();
+	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+	LCD_vidWriteString("Enter PAN:");
+	LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+	for(local_u8indexI=Init_BY_ZERO;local_u8indexI<PAN;local_u8indexI++)
+	{
+		local_u8KPDread=KPD_u8GetPressedKey();
+		while(local_u8KPDread==KPD_NOT_PRESSED)
+		{
+			local_u8KPDread=KPD_u8GetPressedKey();
+		}
+		if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
+		{
+			LCD_vidWriteNumber(local_u8KPDread);
+			local_u8PAN[local_u8indexI]=local_u8KPDread;
+		}
+		else if(local_u8KPDread==Enter_Button)
+		{
+			if(local_u8indexI==9)
+			{
+				local_u8PAN[local_u8indexI]='\0';
+				break;
+			}
+			else
+			{
+				LCD_vidClear();
+				LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+				LCD_vidWriteString("Wrong PAN");
+				LCD_vidClear();
+				LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+				LCD_vidWriteString("Enter PAN:");
+				LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+				local_u8indexI=Init_BY_ZERO;
+			}
+		}
+		else
+		{
+			local_u8indexI--;
+		}
+	}
+	EEPROM_write_bytes(PANADDRESS,&local_u8PAN,PAN);
+	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+
+	LCD_vidClear();
+	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+	LCD_vidWriteString("Enter Balance:");
+	LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+	LCD_vidWriteString("0000.00");
+	LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+	for(local_u8indexI=Init_BY_ZERO;local_u8indexI<7;local_u8indexI++)
+	{
+		if(local_u8indexI==Balance_intNum)
+		{
+			LCD_vidWriteString(".");
+		}
+		else
+		{
+			local_u8KPDread=KPD_u8GetPressedKey();
+			while(local_u8KPDread==KPD_NOT_PRESSED)
+			{
+				local_u8KPDread=KPD_u8GetPressedKey();
+			}
+			if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
+			{
+				if(local_u8indexI<Balance_intNum)
+				{
+					LCD_vidWriteNumber(local_u8KPDread);
+					local_u8BALANCE[local_u8indexI]=local_u8KPDread;
+				}
+				else if(local_u8indexI>Balance_intNum)
+				{
+					LCD_vidWriteNumber(local_u8KPDread);
+					local_u8BALANCE[local_u8indexI]=local_u8KPDread;
+				}
+			}
+			else if(local_u8KPDread==Enter_Button)
+			{
+				local_u8BALANCE[local_u8indexI]='\0';
+				break;
+			}
+			else
+			{
+				local_u8indexI--;
+			}
+		}
+	}
+	EEPROM_write_bytes(BalanceADDRESS,&local_u8BALANCE,BalanceSize);
+	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+	LCD_vidClear();
+	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+	LCD_vidWriteString("Confirm");
+	_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+	/////////////////////////////////////////////////////////////////////////
+	for(local_u8indexII=0;local_u8indexII<9;local_u8indexII++)
+	{
+		LCD_vidClear();
+		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+		LCD_vidWriteString("Enter PAN:");
+		LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+		for(local_u8indexI=Init_BY_ZERO;local_u8indexI<PAN;local_u8indexI++)
+		{
+			local_u8KPDread=KPD_u8GetPressedKey();
+			while(local_u8KPDread==KPD_NOT_PRESSED)
+			{
+				local_u8KPDread=KPD_u8GetPressedKey();
+			}
+			if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
+			{
+				LCD_vidWriteNumber(local_u8KPDread);
+				local_u8PAN[local_u8indexI]=local_u8KPDread;
+			}
+			else if(local_u8KPDread==Enter_Button)
+			{
+				if(local_u8indexI==9)
+				{
+					local_u8PAN[local_u8indexI]='\0';
+					break;
+				}
+				else
+				{
+					LCD_vidClear();
+					LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+					LCD_vidWriteString("Wrong PAN");
+					LCD_vidClear();
+					LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+					LCD_vidWriteString("Enter PAN:");
+					LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+					local_u8indexI=Init_BY_ZERO;
+				}
+			}
+			else
+			{
+				local_u8indexI--;
+			}
+		}
+		PANADDRESS=PANADDRESS+(PAN+BalanceSize);
+		EEPROM_write_bytes(PANADDRESS,&local_u8PAN,PAN);
+		_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+
+		LCD_vidClear();
+		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+		LCD_vidWriteString("Enter Balance:");
+		LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+		LCD_vidWriteString("0000.00");
+		LCD_vidSetPosition(LCD_X_SecLine,LCD_Y_initialPos);
+		for(local_u8indexI=Init_BY_ZERO;local_u8indexI<7;local_u8indexI++)
+		{
+			if(local_u8indexI==Balance_intNum)
+			{
+				LCD_vidWriteString(".");
+			}
+			else
+			{
+				local_u8KPDread=KPD_u8GetPressedKey();
+				while(local_u8KPDread==KPD_NOT_PRESSED)
+				{
+					local_u8KPDread=KPD_u8GetPressedKey();
+				}
+				if(local_u8KPDread>=KPD_Min_Button && local_u8KPDread<=KPD_Max_Button)
+				{
+					if(local_u8indexI<Balance_intNum)
+					{
+						LCD_vidWriteNumber(local_u8KPDread);
+						local_u8BALANCE[local_u8indexI]=local_u8KPDread;
+					}
+					else if(local_u8indexI>Balance_intNum)
+					{
+						LCD_vidWriteNumber(local_u8KPDread);
+						local_u8BALANCE[local_u8indexI]=local_u8KPDread;
+					}
+				}
+				else if(local_u8KPDread==Enter_Button)
+				{
+					local_u8BALANCE[local_u8indexI]='\0';
+					break;
+				}
+				else
+				{
+					local_u8indexI--;
+				}
+			}
+		}
+		BalanceADDRESS=PANADDRESS+PAN;
+		EEPROM_write_bytes(BalanceADDRESS,&local_u8BALANCE,BalanceSize);
+		_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+		LCD_vidClear();
+		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
+		LCD_vidWriteString("Confirm");
+		_delay_ms(1000);/*Delaaaaaaaaaaaaaaaaaaay*/
+	}
 }
