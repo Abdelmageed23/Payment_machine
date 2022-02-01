@@ -26,7 +26,7 @@ void UART_init()
 	//select UBRRH and shift right the baud rate to set the remaining bits
 	UBRRH_UCSRC= (uint8_t)(BAUD_RATE>> REG_SIZE);
 	//enable transmit and receive of UART and receive complete interrupts
-	UCSRB= (HIGH<<RXEN) | (HIGH<<TXEN) | (HIGH<<RXCIE);  
+	UCSRB= (HIGH<<RXEN) | (HIGH<<TXEN);  
 	// select UCSRC register and configure 8 bits of data in a frame with 1 stop bit and user configured parity
 	UBRRH_UCSRC = (HIGH<<URSEL) | (PARITY_MODE<<UPM0) | (STOP_MODE<<USBS) | (HIGH<<UCSZ1) | (HIGH <<UCSZ0); 
 }
