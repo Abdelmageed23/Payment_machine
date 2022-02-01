@@ -19,7 +19,7 @@ void APP_vidInit(void)
 {
   TERMINAL_init();
   EEPROM_init();
-  //SPI_SLVinit();
+  // SPI_SLVinit();
 }
 void APP_vidStart(void)
 {
@@ -52,10 +52,10 @@ void APP_vidStart(void)
  *******************************************************************************/
 void CARD_admin(void)
 {
- 
+
   uint8_t u8_validityFlag = LOW, u8_index = 0;
   uint8_t u8_val[MAX_TERMINAL_CHAR];
-  uint8_t u8_dataFlag=LOW;
+  uint8_t u8_dataFlag = LOW;
   ST_card_t st_myCard;
   TERMINAL_write("HELLO ADMIN");
   TERMINAL_newLine();
@@ -96,12 +96,12 @@ void CARD_admin(void)
   TERMINAL_newLine();
   EEPROM_write_bytes(NAME_STARTING_ADDRESS, st_myCard.s8_cardHolderName, NAME_SIZE);
   delay(65000);
-       delay(65000);
-       delay(65000);
-       delay(65000);
-       delay(65000);
-            delay(65000);
-            delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
   u8_validityFlag = LOW;
 
   while (!u8_validityFlag)
@@ -140,12 +140,12 @@ void CARD_admin(void)
   TERMINAL_newLine();
   EEPROM_write_bytes(PAN_STARTING_ADDRESS, st_myCard.s8_PAN, PAN_SIZE);
   delay(65000);
-       delay(65000);
-       delay(65000);
-       delay(65000);
-       delay(65000);
-            delay(65000);
-            delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
   u8_validityFlag = LOW;
 
   while (!u8_validityFlag)
@@ -183,15 +183,12 @@ void CARD_admin(void)
   TERMINAL_write(st_myCard.s8_pin);
   TERMINAL_newLine();
   EEPROM_write_bytes(PIN_STARTING_ADDRESS, st_myCard.s8_pin, PIN_SIZE);
-  u8_dataFlag=HIGH;
-  EEPROM_write_bytes(WRITTEN_FLAG_ADDRESS,u8_dataFlag,1);
+  u8_dataFlag = HIGH;
+  EEPROM_write_bytes(WRITTEN_FLAG_ADDRESS, u8_dataFlag, 1);
   delay(65000);
-     delay(65000);
-     delay(65000);
-     delay(65000);
-     delay(65000);
-          delay(65000);
-          delay(65000);
+  delay(65000);
+  delay(65000);
+  delay(65000);
 }
 
 void CARD_user(void)
@@ -230,9 +227,9 @@ uint8_t compare(uint8_t a[], uint8_t b[])
 
 static void delay(uint16_t max)
 {
-	uint16_t counter = 0;
-	while (counter < max) // loop to perform a delay
-	{
-		counter++;
-	}
+  uint16_t counter = 0;
+  while (counter < max) // loop to perform a delay
+  {
+    counter++;
+  }
 }
