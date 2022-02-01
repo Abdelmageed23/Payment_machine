@@ -117,40 +117,40 @@ void Check_CardPAN()
 
 		LCD_vidClear();
 		LCD_vidWriteString("Scanning");
-	//	Timer2_SetBusyWait(9000000);
-		LCD_vidWriteString(" .");
-	//	Timer2_SetBusyWait(9000000);
-		LCD_vidWriteString(" .");
-//		Timer2_SetBusyWait(900000);
-		LCD_vidWriteString(" .");
-//		Timer2_SetBusyWait(900000);
 
-		while(BTN_u8IsPressed(BTN_1)==0);
-			/*Scanning the card data with ATM data*/
-			SPI_ReceiveStr(Card_Pan);
-			for(PAN_ATM_index = 0; PAN_ATM_index < (NUM_ATM_ACCOUNTS * ACCOUNT_SIZE) ;PAN_ATM_index + ACCOUNT_SIZE)
+		LCD_vidWriteString(" .");
+
+		LCD_vidWriteString(" .");
+
+		LCD_vidWriteString(" .");
+
+
+	while(BTN_u8IsPressed(BTN_1)==0);
+		/*Scanning the card data with ATM data*/
+		SPI_ReceiveStr(Card_Pan);
+		for(PAN_ATM_index = 0; PAN_ATM_index < (NUM_ATM_ACCOUNTS * ACCOUNT_SIZE) ;PAN_ATM_index + ACCOUNT_SIZE)
+		{
+			EEPROM_read_bytes ( PAN_ATM_index,  &PAN_Temp,  PAN_SIZE);
+			if(strcmp(PAN_Temp , Card_Pan) == 0)
 			{
-				EEPROM_read_bytes ( PAN_ATM_index,  &PAN_Temp,  PAN_SIZE);
-				if(strcmp(PAN_Temp , Card_Pan) == 0)
-				{
-					Card_Data = PAN_Temp;
-					Check_CardPIN();
+				Card_Data = PAN_Temp;
+				Check_CardPIN();
 
-				}
-				else
-				{
-					while(KPD_u8GetPressedKey()!=HOME_KEY)
-					{
-						LCD_vidClear();
-						LCD_vidSetPosition(0,0);
-						LCD_vidWriteString("Invalid User PAN");
-						LCD_vidSetPosition(1,0);
-						LCD_vidWriteString("Exit: Home button :");
-					}
-					ATM_OperatingMode();
-
-				}
 			}
+			else
+			{
+				while(KPD_u8GetPressedKey()!=HOME_KEY)
+				{
+					LCD_vidClear();
+					LCD_vidSetPosition(0,0);
+					LCD_vidWriteString("Invalid User PAN");
+					LCD_vidSetPosition(1,0);
+					LCD_vidWriteString("Exit: Home button :");
+				}
+				ATM_OperatingMode();
+
+			}
+		}
 }
 
 

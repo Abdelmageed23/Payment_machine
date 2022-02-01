@@ -21,4 +21,3 @@ void main()
 
 	}
 }
-//DIO_SETpinVal(DIO_PORTB,7,1);
