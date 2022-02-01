@@ -10,6 +10,7 @@
 
 #define PAN_INITAL_ADDRESS		0x01
 #define PAN_SIZE	9
+#define CARD_NAME_SIZE	9
 
 #define PIN_SIZE	4
 #define NUM_ATM_ACCOUNTS		10
@@ -29,9 +30,9 @@
 
 
 /* MACROS*/
-
-#define HOME_KEY	9				//////////////////////////
-#define AGAIN_KEY	1				////////////////////////////
+										/* To be configurable */
+#define HOME_KEY	9				// Press '*' IN CASE OF Keypad 4x3
+#define AGAIN_KEY	1				// Press '#' IN CASE OF KEYPAD 4x3
 
 #define INSERT_CARD		1
 #define DSIPLAY_TEMP	2

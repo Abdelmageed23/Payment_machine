@@ -24,6 +24,9 @@
  * Global varibale
  */
 uint8_t Card_Data =NOT_FOUND;
+uint8_t	PIN_Card[PIN_SIZE]={0};
+uint8_t Card_Pan[PAN_SIZE]= {0};
+uint8_t Card_Name[CARD_NAME_SIZE]= {0};
 /* Initialization Operating Mode ATM*/
 
 void ATM_OperatingInit()
@@ -110,8 +113,9 @@ void Check_CardPAN()
 {
 	uint8_t	PAN_ATM_index =0;
 	uint8_t PAN_Temp =0;
-	uint8_t Card_Pan[PAN_SIZE]= {0};
+	
 	uint8_t Card_Check = NOT_APPROVED;
+	
 			/*Scanning the card data*/
 
 
@@ -126,8 +130,13 @@ void Check_CardPAN()
 
 
 	while(BTN_u8IsPressed(BTN_1)==0);
+		
 		/*Scanning the card data with ATM data*/
+		SPI_TransmitStr("SEND");
+		SPI_ReceiveStr(Card_Name);
 		SPI_ReceiveStr(Card_Pan);
+		SPI_ReceiveStr(PIN_Card);
+		
 		for(PAN_ATM_index = 0; PAN_ATM_index < (NUM_ATM_ACCOUNTS * ACCOUNT_SIZE) ;PAN_ATM_index + ACCOUNT_SIZE)
 		{
 			EEPROM_read_bytes ( PAN_ATM_index,  &PAN_Temp,  PAN_SIZE);
@@ -159,7 +168,7 @@ void Check_CardPIN()
 	uint8_t PIN_Index =0;
 	uint8_t Temp_key = KPD_NO_Pressed;
 	uint8_t PIN_Check[PIN_SIZE]={0};
-	uint8_t	PIN_Card[PIN_SIZE]={0};
+	
 
 	uint32_t PIN_Numeric =0;
 	uint32_t PIN_INPUT_Numeric =0;
@@ -168,8 +177,6 @@ void Check_CardPIN()
 			LCD_vidClear();
 			LCD_vidWriteString("Enter PIN");
 			LCD_vidSetPosition(1,5);
-/**********************************************************************************SPI NEEDED HERE */
-			SPI_ReceiveStr(PIN_Card);
 
 			PIN_Numeric = strtoint(PIN_Card);
 
