@@ -20,7 +20,7 @@ void APP_vidInit(void)
 {
 	TERMINAL_init();
 	EEPROM_init();
-	//SPI_SLVinit();
+	SPI_SLVinit();
 }
 void APP_vidStart(void)
 {
@@ -61,11 +61,11 @@ void APP_vidStart(void)
 						continue;
 					}
 				}
-				/*
+
 				else if (SPI_flagComplete() == STD_HIGH)
-				{
-					SPI_ReceiveStr(u8_signal);
+				{SPI_ReceiveStr(u8_signal);
 					if (compare(u8_signal, "SEND") == 0)
+					
 					{
 						TERMINAL_write("Sending data to the terminal..");
 						TERMINAL_newLine();
@@ -75,7 +75,7 @@ void APP_vidStart(void)
 						u8_signal[0] = '\0';
 						break;
 					}
-				}*/
+				}
 				else{  /* do nothing */}
 			}
 				}
