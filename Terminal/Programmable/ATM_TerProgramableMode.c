@@ -124,8 +124,8 @@ void Customer_data(void)
 	LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
 	LCD_vidWriteString("Enter UserName:");
 	_delay_ms(1000);
-	//TERMINAL_read(&local_u8AdminRead);
-	if(1)//Check_sentData(&local_u8AdminRead,&local_u8AdminArr)
+	TERMINAL_read(&local_u8AdminRead);
+	if(Check_sentData(&local_u8AdminRead,&local_u8AdminArr))
 	{
 		LCD_vidClear();
 		LCD_vidSetPosition(LCD_X_initialPos,LCD_Y_initialPos);
