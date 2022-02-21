@@ -77,7 +77,7 @@ uint8_t BTN_u8IsPressed(BTN_Num_t btn)
         {
             // do nothing
         }
-        break;
+
     case BTN_1:
         while (1)
         {

@@ -16,6 +16,17 @@
 #define PIN_STARTING_ADDRESS 0x28  // leave 10 bytes after ending (0x1E) so it will start at 0x28
 #define WRITTEN_FLAG_ADDRESS 0x40
 
+#define Initial_by_Zero		0
+
+#define MAX_PAN_Num			9
+#define MAX_PIN_Num			4
+
+#define delay_OneSec		65000
+
+#define InfiniteLoop		1
+
+#define Loop_FirstElement	0
+
 //  DATATYPES 
 typedef struct card_t
 {
@@ -29,7 +40,7 @@ typedef struct card_t
  *******************************************************************************/
 void CARD_admin(void);
 uint8_t compare(uint8_t a[], uint8_t b[]);
-static void delay(uint16_t max);
+static void delay(unint16_t max);
 void uart_recieve_isr(void);
 
 
